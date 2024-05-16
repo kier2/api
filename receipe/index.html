@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="recipe">
+        
+    </div>
+
+    <script>
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        const recipeContainer = document.querySelector('#recipe');
+
+        fetch("https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            displayMeal(result);
+        })
+        .catch((error) => console.error(error));
+
+        function displayMeal(data){
+            console.log(data)
+
+            
+            if (data && Array.isArray(data.meals)) {
+                data.meals.forEach(meal => {
+                    console.log(meal)
+                    const recipeItem = document.createElement('div');
+                    const recipeItemImg = document.createElement('img');
+
+                    recipeItemImg.src = meal.strMealThumb
+
+                    recipeItem.appendChild(recipeItemImg);
+
+                    recipeContainer.appendChild(recipeItem);
+
+                });
+            } else {
+                console.error("Unexpected data structure:", data);
+            }
+        }
+    </script>
+</body>
+</html>
